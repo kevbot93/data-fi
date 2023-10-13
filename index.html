@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Weather App</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css">
+    </head>
+    <body>
+        <div class="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <div class="sm:mx-auto sm:w-full sm:max-w-3xl">
+                <h1 class="text-center text-3xl font-extrabold text-gray-900 mb-8">Weather App</h1>
+                <form class="mb-8">
+                    <label for="search" class="sr-only">Search</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <input type="text" name="search" id="search" class="form-input block w-full sm:text-sm sm:leading-5" placeholder="Search for a city">
+                    </div>
+                </form>
+                <div class="grid grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="px-4 py-5 sm:p-6">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">United States</h3>
+                            <img src="https://restcountries.com/data/usa.svg" alt="United States Flag" class="w-12 h-8 mb-4">
+                            <p class="text-gray-600">Population: 331,449,281</p>
+                            <p class="text-gray-600">Capital: Washington, D.C.</p>
+                            <div class="mt-4" id="us-weather"></div>
+                        </div>
+                    </div>
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="px-4 py-5 sm:p-6">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">China</h3>
+                            <img src="https://restcountries.com/data/chn.svg" alt="China Flag" class="w-12 h-8 mb-4">
+                            <p class="text-gray-600">Population: 1,439,323,776</p>
+                            <p class="text-gray-600">Capital: Beijing</p>
+                            <div class="mt-4" id="china-weather"></div>
+                        </div>
+                    </div>
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="px-4 py-5 sm:p-6">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">India</h3>
+                            <img src="https://restcountries.com/data/ind.svg" alt="India Flag" class="w-12 h-8 mb-4">
+                            <p class="text-gray-600">Population: 1,366,417,754</p>
+                            <p class="text-gray-600">Capital: New Delhi</p>
+                            <div class="mt-4" id="india-weather"></div>
+                        </div>
+                    </div>
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="px-4 py-5 sm:p-6">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Brazil</h3>
+                            <img src="https://restcountries.com/data/bra.svg" alt="Brazil Flag" class="w-12 h-8 mb-4">
+                            <p class="text-gray-600">Population: 213,445,417</p>
+                            <p class="text-gray-600">Capital: Brasília</p>
+                            <div class="mt-4" id="brazil-weather"></div>
+                        </div>
+                    </div>
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="px-4 py-5 sm:p-6">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Pakistan</h3>
+                            <img src="https://restcountries.com/data/pak.svg" alt="Pakistan Flag" class="w-12 h-8 mb-4">
+                            <p class="text-gray-600">Population: 220,892,340</p>
+                            <p class="text-gray-600">Capital: Islamabad</p>
+                            <div class="mt-4" id="pakistan-weather"></div>
+                        </div>
+                    </div>
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="px-4 py-5 sm:p-6">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Nigeria</h3>
+                            <img src="https://restcountries.com/data/nga.svg" alt="Nigeria Flag" class="w-12 h-8 mb-4">
+                            <p class="text-gray-600">Population: 206,139,589</p>
+                            <p class="text-gray-600">Capital: Abuja</p>
+                            <div class="mt-4" id="nigeria-weather"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" id="cards"></div>
+            </div>
+        </div>
+        <script>
+            const usWeather = document.getElementById("us-weather");
+            const chinaWeather = document.getElementById("china-weather");
+            const indiaWeather = document.getElementById("india-weather");
+            const brazilWeather = document.getElementById("brazil-weather");
+            const pakistanWeather = document.getElementById("pakistan-weather");
+            const nigeriaWeather = document.getElementById("nigeria-weather");
+            const cards = document.getElementById("cards");
+            const form = document.querySelector("form");
+
+            function updateWeather(event) {
+                event.preventDefault();
+                const search = document.getElementById("search").value;
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=9f34e005a51f891e2c9e4f7a8cd475de&units=metric`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const card = `
+                            <div class="bg-white overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">${data.name}</h3>
+                                    <div class="flex items-center">
+                                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="${data.weather[0].description}" class="w-12 h-12 mr-4">
+                                        <div>
+                                            <p class="text-2xl font-bold text-gray-800">${data.main.temp}°C</p>
+                                            <p class="text-gray-600">${data.weather[0].description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        cards.innerHTML = "";
+                        cards.insertAdjacentHTML("beforeend", card);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+
+            function updateUSWeather() {
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=Washington, D.C.&appid=9f34e005a51f891e2c9e4f7a8cd475de&units=metric`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const card = `
+                            <div class="bg-white overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Washington, D.C.</h3>
+                                    <div class="flex items-center">
+                                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="${data.weather[0].description}" class="w-12 h-12 mr-4">
+                                        <div>
+                                            <p class="text-2xl font-bold text-gray-800">${data.main.temp}°C</p>
+                                            <p class="text-gray-600">${data.weather[0].description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        usWeather.innerHTML = "";
+                        usWeather.insertAdjacentHTML("beforeend", card);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+
+            function updateChinaWeather() {
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=Beijing&appid=9f34e005a51f891e2c9e4f7a8cd475de&units=metric`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const card = `
+                            <div class="bg-white overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Beijing</h3>
+                                    <div class="flex items-center">
+                                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="${data.weather[0].description}" class="w-12 h-12 mr-4">
+                                        <div>
+                                            <p class="text-2xl font-bold text-gray-800">${data.main.temp}°C</p>
+                                            <p class="text-gray-600">${data.weather[0].description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        chinaWeather.innerHTML = "";
+                        chinaWeather.insertAdjacentHTML("beforeend", card);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+
+            function updateIndiaWeather() {
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=New Delhi&appid=9f34e005a51f891e2c9e4f7a8cd475de&units=metric`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const card = `
+                            <div class="bg-white overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">New Delhi</h3>
+                                    <div class="flex items-center">
+                                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="${data.weather[0].description}" class="w-12 h-12 mr-4">
+                                        <div>
+                                            <p class="text-2xl font-bold text-gray-800">${data.main.temp}°C</p>
+                                            <p class="text-gray-600">${data.weather[0].description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        indiaWeather.innerHTML = "";
+                        indiaWeather.insertAdjacentHTML("beforeend", card);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+
+            function updateBrazilWeather() {
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=Brasília&appid=9f34e005a51f891e2c9e4f7a8cd475de&units=metric`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const card = `
+                            <div class="bg-white overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Brasília</h3>
+                                    <div class="flex items-center">
+                                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="${data.weather[0].description}" class="w-12 h-12 mr-4">
+                                        <div>
+                                            <p class="text-2xl font-bold text-gray-800">${data.main.temp}°C</p>
+                                            <p class="text-gray-600">${data.weather[0].description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        brazilWeather.innerHTML = "";
+                        brazilWeather.insertAdjacentHTML("beforeend", card);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+
+            function updatePakistanWeather() {
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=Islamabad&appid=9f34e005a51f891e2c9e4f7a8cd475de&units=metric`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const card = `
+                            <div class="bg-white overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Islamabad</h3>
+                                    <div class="flex items-center">
+                                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="${data.weather[0].description}" class="w-12 h-12 mr-4">
+                                        <div>
+                                            <p class="text-2xl font-bold text-gray-800">${data.main.temp}°C</p>
+                                            <p class="text-gray-600">${data.weather[0].description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        pakistanWeather.innerHTML = "";
+                        pakistanWeather.insertAdjacentHTML("beforeend", card);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+
+            function updateNigeriaWeather() {
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=Abuja&appid=9f34e005a51f891e2c9e4f7a8cd475de&units=metric`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const card = `
+                            <div class="bg-white overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Abuja</h3>
+                                    <div class="flex items-center">
+                                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="${data.weather[0].description}" class="w-12 h-12 mr-4">
+                                        <div>
+                                            <p class="text-2xl font-bold text-gray-800">${data.main.temp}°C</p>
+                                            <p class="text-gray-600">${data.weather[0].description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        nigeriaWeather.innerHTML = "";
+                        nigeriaWeather.insertAdjacentHTML("beforeend", card);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+
+            updateUSWeather();
+            updateChinaWeather();
+            updateIndiaWeather();
+            updateBrazilWeather();
+            updatePakistanWeather();
+            updateNigeriaWeather();
+
+            form.addEventListener("submit", updateWeather);
+        </script>
+    </body>
+</html>
