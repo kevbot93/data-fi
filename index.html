@@ -1,49 +1,24 @@
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-h1 {
-    font-size: 3rem;
-    margin-bottom: 2rem;
-}
-
-form {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-}
-
-label {
-    font-size: 1.5rem;
-    margin-right: 1rem;
-}
-
-input[type="text"] {
-    font-size: 1.5rem;
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: none;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
-
-button[type="submit"] {
-    font-size: 1.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    border: none;
-    background-color: #00008b;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover {
-    background-color: #00008b;
-}
-
-#weather-info {
-    font-size: 2rem;
-    font-weight: bold;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div class="app">
+        <h1>The weather of the world</h1>
+        <div class="input-group">
+            
+            <input type="text" id="cityInput" placeholder="Enter city...">
+            <button onclick="searchWeather()">Search Weather</button>
+        </div>
+        <div class="weather-card" id="weatherCard">
+            <!-- Weather information will be populated here -->
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
