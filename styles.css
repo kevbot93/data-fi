@@ -1,24 +1,55 @@
-```html
-<body class="font-sans flex justify-center items-center h-screen bg-gray-200">
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #e2e8f0;
+}
 
-  <div class="app max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden flex justify-between p-10">
+.app {
+  width: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 80px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
 
-    <div class="input-group flex space-x-4 mb-4">
-      <input type="search" id="cityInput" class="flex-grow py-2 px-4 border-gray-300 rounded" />
-    </div>
+.input-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
 
-    <button class="py-2 px-4 rounded bg-red-500 text-white cursor-pointer">
-      Search
-    </button>
+#cityInput {
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+}
 
-    <div class="weather-card hidden p-5 border-gray-300 rounded">
+button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #ff0800; /*Updated to fruity red as requested*/
+  color: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-      <img class="weather-icon w-12 h-12">
+h1, h2, h3, h4, h5, h6 { /*Updated all headline colors to fruity red as requested*/
+  color: #ff0800;
+}
 
-    </div>
+.weather-card {
+  display: none; /* Hidden by default until weather data is fetched */
+  padding: 20px;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+}
 
-  </div>
-
-</body>
-```
-In the updated code, we replace the appropriate css classes for the Tailwind CSS.
+.weather-icon {
+  width: 50px;
+  height: 50px;
+}
